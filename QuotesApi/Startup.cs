@@ -30,11 +30,14 @@ namespace QuotesApi
             services.AddControllers();
             services.AddDbContext<QuotesDbContext>(option => option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=QuotesDb;"));
             services.AddMvc().AddXmlSerializerFormatters();
+            services.AddResponseCaching();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseCaching();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,7 +53,6 @@ namespace QuotesApi
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }

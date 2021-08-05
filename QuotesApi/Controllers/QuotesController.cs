@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCaching;
 using QuotesApi.Data;
 using QuotesApi.Models;
 using System;
@@ -24,6 +25,7 @@ namespace QuotesApi.Controllers
 
         // GET: api/<QuotesController>
         [HttpGet]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
         public IActionResult Get(string sort, int? pageNumber, int? pageSize)
         {
             IQueryable<Quote> quotes;
@@ -47,6 +49,7 @@ namespace QuotesApi.Controllers
         // GET api/Quotes/SearchQuote?type=type2
         [HttpGet]
         [Route("[action]")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
         public IActionResult SearchQuote(string type)
         {
             var quotes = _quotesDbContext.Quotes.Where(q => q.Type.StartsWith(type));
@@ -55,6 +58,7 @@ namespace QuotesApi.Controllers
 
         // GET api/<QuotesController>/5
         [HttpGet("{id}")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
         public IActionResult Get(int id)
         {
             var quote = _quotesDbContext.Quotes.Find(id);
